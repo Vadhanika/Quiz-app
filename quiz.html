@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz Page</title>
+  <style>
+    body {
+      background-color: #f0f8ff;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .quiz-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    button.option-btn {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #f9f9f9;
+    }
+
+    button.option-btn:hover {
+      background-color: #e0e0e0;
+    }
+
+    .next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .next-btn:hover {
+      background-color: #45a049;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h2>Quiz Questions</h2>
+    <p id="question"></p>
+    <div id="options"></div>
+    <button class="next-btn" onclick="nextQuestion()">Next</button>
+  </div>
+
+  <script>
+    const questions = [
+      { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "Hot Mail", "How To Make Login", "Home Tool Markup Language"], answer: "Hyper Text Markup Language" },
+      { question: "Which language is used to style web pages?", options: ["HTML", "CSS", "Python", "Java"], answer: "CSS" },
+      { question: "What does CSS stand for?", options: ["Cascading Style Sheets", "Colorful Style Sheets", "Computer Style Sheet", "Creative Style Syntax"], answer: "Cascading Style Sheets" },
+      { question: "Which tag is used for inserting a line break in HTML?", options: ["<br>", "<lb>", "<break>", "<newline>"], answer: "<br>" },
+      { question: "Which is a JavaScript data type?", options: ["Number", "Character", "Decimal", "Float"], answer: "Number" },
+      { question: "Which HTML tag is used to display an image?", options: ["<img>", "<image>", "<src>", "<pic>"], answer: "<img>" },
+      { question: "Which property is used in CSS for text color?", options: ["color", "text-color", "font-color", "style"], answer: "color" },
+      { question: "Which language is used for web scripting?", options: ["JavaScript", "Python", "C++", "Java"], answer: "JavaScript" },
+      { question: "What does DOM stand for?", options: ["Document Object Model", "Data Object Manager", "Digital Output Mode", "Display Object Marker"], answer: "Document Object Model" },
+      { question: "Which function is used to output in JavaScript?", options: ["console.log()", "print()", "echo()", "write()"], answer: "console.log()" },
+      { question: "Which tag is used for a hyperlink?", options: ["<a>", "<link>", "<href>", "<url>"], answer: "<a>" },
+      { question: "Which attribute in input tag is used to make it mandatory?", options: ["required", "must", "needed", "validate"], answer: "required" },
+      { question: "Which HTML tag is used to create a table row?", options: ["<tr>", "<td>", "<th>", "<row>"], answer: "<tr>" },
+      { question: "How do you make text bold in HTML?", options: ["<b>", "<strong>", "<bold>", "Both <b> and <strong>"], answer: "Both <b> and <strong>" },
+      { question: "Which CSS property sets the background color?", options: ["background-color", "bg-color", "color-bg", "background"], answer: "background-color" },
+      { question: "Which event fires when a user clicks on an element?", options: ["onclick", "onpress", "onhover", "onmouse"], answer: "onclick" },
+      { question: "How do you comment in HTML?", options: ["<!-- comment -->", "// comment", "/* comment */", "# comment"], answer: "<!-- comment -->" },
+      { question: "Which is the correct way to declare a variable in JS?", options: ["let x = 5;", "variable x = 5;", "int x = 5;", "x := 5"], answer: "let x = 5;" },
+      { question: "What does API stand for?", options: ["Application Programming Interface", "Applied Programming Interface", "Application Page Integration", "Advanced Program Instruction"], answer: "Application Programming Interface" },
+      { question: "What is used to loop through code in JS?", options: ["for", "loop", "repeat", "each"], answer: "for" }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function showQuestion() {
+      document.getElementById("question").textContent = questions[current].question;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      questions[current].options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.className = "option-btn";
+        btn.onclick = () => checkAnswer(btn, option);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = document.querySelectorAll(".option-btn");
+
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === correct) btn.style.backgroundColor = "lightgreen";
+        if (btn.textContent === selected && selected !== correct) btn.style.backgroundColor = "lightcoral";
+      });
+
+      if (selected === correct) score++;
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < questions.length) {
+        showQuestion();
+      } else {
+        localStorage.setItem("score", score);
+        window.location.href = "result.html";
+      }
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>

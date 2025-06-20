@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz App</title>
+  <style>
+    body {
+      background-color: #f0f8ff;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      text-align: right;
+    }
+
+    .top-right p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .logout-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .container {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Right Box -->
+  <div class="top-right">
+    <p><strong>Previous Score:</strong> <span id="prev-score">0</span></p>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <!-- Centered Main Content -->
+  <div class="container">
+    <h2>Welcome to the Quiz App</h2>
+    <p>Enter your name and email:</p>
+
+    <input type="text" id="username" placeholder="Your Name">
+    <input type="email" id="email" placeholder="Your Email">
+    <button onclick="startQuiz()">Start Quiz</button>
+  </div>
+
+  <script>
+    // Load previous score if available
+    window.onload = function () {
+      const prev = localStorage.getItem("score") || "0";
+      document.getElementById("prev-score").textContent = prev;
+    };
+
+    function startQuiz() {
+      const name = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+
+      if (name && email) {
+        localStorage.setItem("username", name);
+        localStorage.setItem("email", email);
+        window.location.href = "quiz.html";
+      } else {
+        alert("Please enter both name and email.");
+      }
+    }
+
+    function logout() {
+      localStorage.clear();
+      location.reload();
+    }
+  </script>
+</body>
+</html>
